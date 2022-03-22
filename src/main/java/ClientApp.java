@@ -18,14 +18,14 @@ public class ClientApp {
                 .build();
         blockingStub = UserServiceGrpc.newBlockingStub(channel);
 
-        User user = User.newBuilder().setUserId(1).setUsername("mia").setPassword("unsafe").build();
+        User user = User.newBuilder().setUserId(1).setUsername("ivo").setPassword("unsafe").build();
         UserRequest request = UserRequest.newBuilder().setUser(user).build();
         UserResponse response;
         System.out.println("User created and will be sent over: "+request.toString());
         try {
             response = blockingStub.register(request);
         } catch (StatusRuntimeException e) {
-            System.out.println("1 Exception: "+ e.getLocalizedMessage());
+            System.out.println("Exception: "+ e.getLocalizedMessage());
             return;
         }
         System.out.println("User registered: "+ response.getRegistered());

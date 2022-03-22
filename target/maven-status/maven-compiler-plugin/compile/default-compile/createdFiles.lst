@@ -1,6 +1,6 @@
 com\proto\user\Error.class
+services\impl\UserRegServiceIml.class
 com\proto\user\UserResponse$Builder.class
-services\UserServiceImpl.class
 com\proto\user\UserRequest$1.class
 com\proto\user\UserServiceGrpc$UserServiceImplBase.class
 com\proto\user\UserServiceGrpc$3.class
@@ -13,6 +13,7 @@ ServerApp.class
 com\proto\user\UserRequest$Builder.class
 com\proto\user\UserResponse$1.class
 com\proto\user\UserServiceGrpc$UserServiceFutureStub.class
+services\UserRegService.class
 ClientApp.class
 com\proto\user\UserServiceOuterClass.class
 com\proto\user\ErrorResponse.class
@@ -27,6 +28,7 @@ com\proto\user\UserServiceGrpc$MethodHandlers.class
 com\proto\user\UserResponseOrBuilder.class
 com\proto\user\UserResponse.class
 com\proto\user\UserServiceGrpc$UserServiceBlockingStub.class
+grpc\UserServiceImpl.class
 com\proto\user\UserServiceGrpc$UserServiceBaseDescriptorSupplier.class
 com\proto\user\UserOuterClass.class
 com\proto\user\UserServiceGrpc$UserServiceStub.class

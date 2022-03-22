@@ -1,6 +1,7 @@
 package services;
 
 import com.proto.user.*;
+import grpc.UserServiceImpl;
 import io.grpc.Metadata;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
