@@ -2,6 +2,7 @@ package services;
 
 import com.proto.user.ErrorResponse;
 import com.proto.user.UserRequest;
+import com.proto.user.UserResponse;
 import com.proto.user.UserServiceGrpc;
 import io.grpc.Metadata;
 import io.grpc.Status;
@@ -42,7 +43,7 @@ class UserServiceImplTest {
 
 
     @Test
-    public void userExistsInDB_IdOrUserName() throws Exception {
+    public void userExistsInDB_idOrUserName() throws Exception {
 
         UserRequest request = UserRequest.newBuilder()
                 .setUsername("ivo")
@@ -59,6 +60,21 @@ class UserServiceImplTest {
         assertEquals("ivo",errorResponse.getUsername());
         assertEquals(4l, errorResponse.getUserId());
         assertEquals(5l, errorResponse.getExpectedUserId());
+    }
+
+    @Test
+    public void userRegister_success() throws Exception {
+
+        UserRequest request = UserRequest.newBuilder()
+                .setUsername("marko")
+                .setUserId(5l)
+                .setPassword("pssw")
+                .build();
+
+        UserResponse reply =
+                blockingStub.register(request);
+
+        assertEquals(true, reply.getRegistered());
     }
 
 }

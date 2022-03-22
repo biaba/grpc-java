@@ -24,11 +24,6 @@ public final class User {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_UserResponse_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_ErrorResponse_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_ErrorResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -40,10 +35,8 @@ public final class User {
     java.lang.String[] descriptorData = {
       "\n\nuser.proto\"A\n\013UserRequest\022\016\n\006userId\030\001 " +
       "\001(\003\022\020\n\010username\030\002 \001(\t\022\020\n\010password\030\003 \001(\t\"" +
-      "\"\n\014UserResponse\022\022\n\nregistered\030\001 \001(\010\"L\n\rE" +
-      "rrorResponse\022\017\n\007user_id\030\001 \001(\003\022\030\n\020expecte" +
-      "d_user_id\030\002 \001(\003\022\020\n\010username\030\003 \001(\tB\022\n\016com" +
-      ".proto.userP\001b\006proto3"
+      "\"\n\014UserResponse\022\022\n\nregistered\030\001 \001(\010B\022\n\016c" +
+      "om.proto.userP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -61,12 +54,6 @@ public final class User {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_UserResponse_descriptor,
         new java.lang.String[] { "Registered", });
-    internal_static_ErrorResponse_descriptor =
-      getDescriptor().getMessageTypes().get(2);
-    internal_static_ErrorResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_ErrorResponse_descriptor,
-        new java.lang.String[] { "UserId", "ExpectedUserId", "Username", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -1,3 +1,4 @@
+com\proto\user\Error.class
 com\proto\user\UserResponse$Builder.class
 services\UserServiceImpl.class
 com\proto\user\UserRequest$1.class
