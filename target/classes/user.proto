@@ -1,14 +1,8 @@
 syntax = "proto3";
 
-option go_package = "base/src/main/java/proto";
-
 option java_multiple_files = true;
 
 option java_package = "com.proto.user";
-
-service UserService {
-  rpc register(UserRequest) returns (UserResponse) {};
-}
 
 message UserRequest {
   int64 userId = 1;
@@ -18,4 +12,10 @@ message UserRequest {
 
 message UserResponse {
   bool registered = 1;
+}
+
+message ErrorResponse {
+  int64 user_id = 1;
+  int64 expected_user_id =2;
+  string username = 3;
 }
