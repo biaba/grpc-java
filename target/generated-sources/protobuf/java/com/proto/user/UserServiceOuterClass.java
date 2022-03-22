@@ -14,6 +14,16 @@ public final class UserServiceOuterClass {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_UserRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_UserRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_UserResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_UserResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -23,16 +33,30 @@ public final class UserServiceOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022user_service.proto\032\nuser.proto28\n\013User" +
-      "Service\022)\n\010register\022\014.UserRequest\032\r.User" +
-      "Response\"\000B\022\n\016com.proto.userP\001b\006proto3"
+      "\n\022user_service.proto\032\nuser.proto\"\"\n\013User" +
+      "Request\022\023\n\004user\030\001 \001(\0132\005.User\"\"\n\014UserResp" +
+      "onse\022\022\n\nregistered\030\001 \001(\01028\n\013UserService\022" +
+      ")\n\010register\022\014.UserRequest\032\r.UserResponse" +
+      "\"\000B\022\n\016com.proto.userP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-          com.proto.user.User.getDescriptor(),
+          com.proto.user.UserOuterClass.getDescriptor(),
         });
-    com.proto.user.User.getDescriptor();
+    internal_static_UserRequest_descriptor =
+      getDescriptor().getMessageTypes().get(0);
+    internal_static_UserRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_UserRequest_descriptor,
+        new java.lang.String[] { "User", });
+    internal_static_UserResponse_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_UserResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_UserResponse_descriptor,
+        new java.lang.String[] { "Registered", });
+    com.proto.user.UserOuterClass.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

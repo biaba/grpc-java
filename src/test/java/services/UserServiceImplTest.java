@@ -1,9 +1,6 @@
 package services;
 
-import com.proto.user.ErrorResponse;
-import com.proto.user.UserRequest;
-import com.proto.user.UserResponse;
-import com.proto.user.UserServiceGrpc;
+import com.proto.user.*;
 import io.grpc.Metadata;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
@@ -45,10 +42,14 @@ class UserServiceImplTest {
     @Test
     public void userExistsInDB_idOrUserName() throws Exception {
 
-        UserRequest request = UserRequest.newBuilder()
+        User user = User.newBuilder()
                 .setUsername("ivo")
                 .setUserId(4l)
                 .setPassword("pssw")
+                .build();
+
+        UserRequest request = UserRequest.newBuilder()
+                .setUser(user)
                 .build();
 
         StatusRuntimeException thrown = Assertions.assertThrows(StatusRuntimeException.class, () -> blockingStub.register(request));
@@ -65,10 +66,14 @@ class UserServiceImplTest {
     @Test
     public void userRegister_success() throws Exception {
 
-        UserRequest request = UserRequest.newBuilder()
+        User user = User.newBuilder()
                 .setUsername("marko")
                 .setUserId(5l)
                 .setPassword("pssw")
+                .build();
+
+        UserRequest request = UserRequest.newBuilder()
+                .setUser(user)
                 .build();
 
         UserResponse reply =
@@ -76,5 +81,4 @@ class UserServiceImplTest {
 
         assertEquals(true, reply.getRegistered());
     }
-
 }

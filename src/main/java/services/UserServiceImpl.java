@@ -34,7 +34,7 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
         long id = 4;
         long id2 =5;
         String username = "ivo";
-        if (request.getUserId() == id || request.getUsername().equals(username)) {
+        if (request.getUser().getUserId() == id || request.getUser().getUsername().equals(username)) {
             Metadata.Key<ErrorResponse> errorResponseKey = ProtoUtils.keyForProto(ErrorResponse.getDefaultInstance());
             ErrorResponse errorResponse = ErrorResponse.newBuilder()
                     // got back from DB existing id

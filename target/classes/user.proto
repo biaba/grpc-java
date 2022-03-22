@@ -4,12 +4,8 @@ option java_multiple_files = true;
 
 option java_package = "com.proto.user";
 
-message UserRequest {
+message User {
   int64 userId = 1;
   string username = 2;
   string password = 3;
-}
-
-message UserResponse {
-  bool registered = 1;
 }

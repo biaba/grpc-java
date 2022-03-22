@@ -1,3 +1,4 @@
+import com.proto.user.User;
 import com.proto.user.UserRequest;
 import com.proto.user.UserResponse;
 import com.proto.user.UserServiceGrpc;
@@ -17,7 +18,8 @@ public class ClientApp {
                 .build();
         blockingStub = UserServiceGrpc.newBlockingStub(channel);
 
-        UserRequest request = UserRequest.newBuilder().setUserId(1).setUsername("mia").setPassword("unsafe").build();
+        User user = User.newBuilder().setUserId(1).setUsername("mia").setPassword("unsafe").build();
+        UserRequest request = UserRequest.newBuilder().setUser(user).build();
         UserResponse response;
         System.out.println("User created and will be sent over: "+request.toString());
         try {

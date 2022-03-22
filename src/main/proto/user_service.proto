@@ -9,3 +9,11 @@ option java_package = "com.proto.user";
 service UserService {
   rpc register(UserRequest) returns (UserResponse) {};
 }
+
+message UserRequest {
+  User user =1;
+}
+
+message UserResponse {
+  bool registered =1;
+}
