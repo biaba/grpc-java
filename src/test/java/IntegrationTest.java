@@ -1,12 +1,8 @@
 import com.proto.user.User;
 import com.proto.user.UserRequest;
 import com.proto.user.UserResponse;
-import com.proto.user.UserServiceGrpc;
 import grpc.UserServiceImpl;
-import io.grpc.ManagedChannel;
-import io.grpc.Server;
-import io.grpc.ServerBuilder;
-import io.grpc.okhttp.OkHttpChannelBuilder;
+import io.grpc.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,12 +11,6 @@ class IntegrationTest {
 
     private static final String host = "localhost";
     private static final int port = 9090;
-    private static ManagedChannel channel = OkHttpChannelBuilder
-            .forAddress(host, port)
-            .usePlaintext()
-            .build();
-    private static UserServiceGrpc.UserServiceBlockingStub blockingStub =
-            UserServiceGrpc.newBlockingStub(channel);
     private static Server server = ServerBuilder
             .forPort(port)
             .addService(new UserServiceImpl()).build();
@@ -36,11 +26,12 @@ class IntegrationTest {
 
     @Test
     void registerNonSuccess() {
-        UserResponse response = ClientApp.callToServer(createUserRequest(4l,"ivo", "pssw"));
+        UserRequest request = createUserRequest(4l,"ivo", "pssw");
+        // DOESN'T WORK
+        assertThrows(StatusRuntimeException.class, () -> ClientApp.callToServer(request));
+       // WORKS StatusRuntimeException thrown = assertThrows(StatusRuntimeException.class, () -> blockingStub.register(request));
+       // WORKS assertEquals("ALREADY_EXISTS", thrown.getStatus().getCode().toString());
 
-        System.out.println(" 2nd test "+ response);
-
-        assertEquals(null, response);
         server.shutdown();
     }
 

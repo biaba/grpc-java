@@ -1,3 +1,2 @@
 grpc\UserServiceImplTest.class
-ServerAppTest.class
-ClientAppTest.class
+IntegrationTest.class

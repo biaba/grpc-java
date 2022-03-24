@@ -17,10 +17,9 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
 
     @Override
     public void register(UserRequest request, StreamObserver<UserResponse> responseObserver) {
-        System.out.println("New User for registration: " + request.toString()+" "+ request.getUser());
+        System.out.println("New User for registration: " + request.toString());
         Metadata metadata = userExists(request);
         if (metadata.keys().size()>0) {
-
             responseObserver.onError(Status.ALREADY_EXISTS.withDescription("The id or username exists")
                     .asRuntimeException(metadata));
         } else {
