@@ -31,7 +31,7 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
         }
     }
 
-    private Metadata userExists(UserRequest request) {
+    public Metadata userExists(UserRequest request) {
         Metadata metadata = new Metadata();
 
         if (userRegService.userExistsInDb(request.getUser())) {
