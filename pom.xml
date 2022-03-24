@@ -55,6 +55,12 @@
             <artifactId>google-cloud-spanner</artifactId>
             <version>6.21.2</version>
         </dependency>
+        <!-- in memory DB -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.194</version>
+        </dependency>
         <!--Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

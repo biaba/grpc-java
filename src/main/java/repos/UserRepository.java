@@ -1,50 +1,37 @@
-/*
 package repos;
 
-import com.google.cloud.spanner.DatabaseClient;
-import com.google.cloud.spanner.DatabaseId;
-import com.google.cloud.spanner.ResultSet;
-import com.google.cloud.spanner.Spanner;
-import com.google.cloud.spanner.SpannerOptions;
-import com.google.cloud.spanner.Statement;
+import com.proto.user.User;
 
-*/
-/**
- * A quick start code for Cloud Spanner. It demonstrates how to setup the Cloud Spanner client and
- * execute a simple query using it against an existing database.
- *//*
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class UserRepository {
-    public static void main(String... args) throws Exception {
-        args = new String[2];
-args[0]="demo-instance";
-args[1]="javagrpc";
-        if (args.length != 2) {
-            System.err.println("Usage: QuickStartSample <instance_id> <database_id>");
-            return;
-        }
-        // Instantiates a client
-        SpannerOptions options = SpannerOptions.newBuilder().build();
-        Spanner spanner = options.getService();
 
-        // Name of your instance & database.
-        String instanceId = args[0];
-        String databaseId = args[1];
-        try {
-            // Creates a database client
-            DatabaseClient dbClient =
-                    spanner.getDatabaseClient(DatabaseId.of(options.getProjectId(), instanceId, databaseId));
-            // Queries the database
-            try (ResultSet resultSet = dbClient.singleUse().executeQuery(Statement.of("SELECT 1"))) {
-                System.out.println("\n\nResults:");
-                // Prints the results
-                while (resultSet.next()) {
-                    System.out.printf("%d\n\n", resultSet.getLong(0));
-                }
-            }
-        } finally {
-            // Closes the client which will free up the resources used
-            spanner.close();
-        }
+    public boolean createUser(User user) throws SQLException {
+        DbConnection connection = new DbConnection();
+
+        String sql="Insert into user (ID, username, password) values ";
+        sql += String.format("(%s, '%s', '%s')", user.getUserId(),user.getUsername(),user.getPassword());
+        System.out.println("in repo will create a user");
+        return connection.executeUpdateStatement(sql);
     }
-}*/
+
+    public boolean userExists(long id, String username) throws SQLException {
+        DbConnection connection = new DbConnection();
+        String sql = String.format("SELECT * FROM user WHERE ID=%s OR username='%s'", id, username);
+        System.out.println(connection.executeStatement(sql));
+        System.out.println("in REPO user exists "+ (connection.executeStatement(sql).first()));
+        return connection.executeStatement(sql).first();
+    }
+
+    public long nextAvailableId() throws SQLException {
+        DbConnection connection = new DbConnection();
+        String sql = String.format("SELECT ID FROM user ORDER BY ID DESC LIMIT 1");
+        ResultSet resultSet = connection.executeStatement(sql);
+        long nextValue = 1l;
+        while(resultSet.next()){
+            nextValue += resultSet.getLong("ID");
+        }
+        return nextValue;
+    }
+}

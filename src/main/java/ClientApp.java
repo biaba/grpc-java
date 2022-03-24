@@ -1,10 +1,10 @@
-import com.proto.user.User;
-import com.proto.user.UserRequest;
-import com.proto.user.UserResponse;
-import com.proto.user.UserServiceGrpc;
+import com.proto.user.*;
 import io.grpc.ManagedChannel;
+import io.grpc.Metadata;
+import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import io.grpc.okhttp.OkHttpChannelBuilder;
+import io.grpc.protobuf.ProtoUtils;
 
 public class ClientApp {
     private static final String host = "localhost";
@@ -14,13 +14,19 @@ public class ClientApp {
     private static UserResponse response;
 
     public static void main(String[] args) {
-        User user = User.newBuilder().setUserId(1).setUsername("iivo").setPassword("unsafe").build();
+        if(args.length !=3) {
+            String[] ar = new String[3];
+            args =ar;
+            args[0] = "1";
+            args[1]=  "ivo";
+            args[2] = "pssw";
+        }
+        User user = User.newBuilder().setUserId(Long.valueOf(args[0])).setUsername(args[1]).setPassword(args[2]).build();
         UserRequest request = UserRequest.newBuilder().setUser(user).build();
+        System.out.println("User created and will be sent over: " + request);
 
         UserResponse response = callToServer(request);
-        System.out.println("User created and will be sent over: "+request.toString());
-
-        System.out.println(response==null? " User not registered" : "User registered");
+        System.out.println("User registered: " + response.getRegistered());
     }
 
     public static UserResponse callToServer(UserRequest request) {
@@ -28,13 +34,15 @@ public class ClientApp {
                 .usePlaintext()
                 .build();
         blockingStub = UserServiceGrpc.newBlockingStub(channel);
-
-        System.out.println("User created and will be sent over: "+request.toString());
         try {
             response = blockingStub.register(request);
         } catch (StatusRuntimeException e) {
-            System.out.println("Exception: "+ e.getLocalizedMessage());
-            return response;
+            Metadata metadata = Status.trailersFromThrowable(e);
+            ErrorResponse errorResponse = metadata.get(ProtoUtils.keyForProto(ErrorResponse.getDefaultInstance()));
+            System.out.println("Next available ID: "+ errorResponse.getExpectedUserId());
+            System.out.println("Exception: " + e.getLocalizedMessage());
+            // if not .setRegistered(false), the (true) is returned. Why?
+            return UserResponse.newBuilder().setRegistered(false).build();
         }
         return response;
     }

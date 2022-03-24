@@ -26,15 +26,11 @@ class IntegrationTest {
 
     @Test
     void registerNonSuccess() {
-        UserRequest request = createUserRequest(4l,"ivo", "pssw");
-        // DOESN'T WORK
-        assertThrows(StatusRuntimeException.class, () -> ClientApp.callToServer(request));
-       // WORKS StatusRuntimeException thrown = assertThrows(StatusRuntimeException.class, () -> blockingStub.register(request));
-       // WORKS assertEquals("ALREADY_EXISTS", thrown.getStatus().getCode().toString());
-
+        UserRequest request = createUserRequest(4l, "ivo", "pssw");
+        UserResponse response = ClientApp.callToServer(request);
+        assertEquals(false, response.getRegistered());
         server.shutdown();
     }
-
 
     private UserRequest createUserRequest(long userId, String username, String password) {
         User user = User.newBuilder()

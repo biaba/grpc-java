@@ -1,36 +1,42 @@
 package services.impl;
 
 import com.proto.user.User;
+import repos.UserRepository;
 import services.UserRegService;
+
+import java.sql.SQLException;
 
 public class UserRegServiceIml implements UserRegService {
 
+    UserRepository repo = new UserRepository();
+
     @Override
-    public boolean registerUser(User user) {
+    public boolean registerUser(User user) throws SQLException {
         System.out.println("Service called to register");
-        // connects to db and registers user
-        return true;
+        boolean registered = true;
+        if(userExistsInDb(user)){
+            registered = false;
+        }else {
+            repo.createUser(user);
+        }
+        return registered;
     }
 
     @Override
-    public boolean userExistsInDb(User user) {
-        System.out.println("User checked in DB");
-        // db connection. Checking for username or id exists
-        // imitating response
-        long id = 4;
-        String username = "ivo";
+    public boolean userExistsInDb(User user) throws SQLException {
+        System.out.println("User checked in Service");
         boolean exists = false;
 
-        if(user.getUserId() == id || user.getUsername().equals(username)){
+        if(repo.userExists(user.getUserId(), user.getUsername())){
             exists = true;
         }
         return exists;
     }
 
     @Override
-    public long getNextId() {
+    public long getNextId() throws SQLException {
         System.out.println("Next Id from DB");
-        // connects to db and gets next available id
-        return 5l;
+        long nextID = repo.nextAvailableId();
+        return nextID;
     }
 }

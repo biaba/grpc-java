@@ -11,12 +11,14 @@ import com.proto.user.ErrorResponse;
 import services.UserRegService;
 import services.impl.UserRegServiceIml;
 
+import java.sql.SQLException;
+
 public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
 
     UserRegService userRegService = new UserRegServiceIml();
 
     @Override
-    public void register(UserRequest request, StreamObserver<UserResponse> responseObserver) {
+    public void register(UserRequest request, StreamObserver<UserResponse> responseObserver) throws SQLException {
         System.out.println("New User for registration: " + request.toString());
         Metadata metadata = userExists(request);
         if (metadata.keys().size()>0) {
@@ -30,18 +32,15 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
         }
     }
 
-    public Metadata userExists(UserRequest request) {
+    public Metadata userExists(UserRequest request) throws SQLException {
         Metadata metadata = new Metadata();
 
         if (userRegService.userExistsInDb(request.getUser())) {
 
             Metadata.Key<ErrorResponse> errorResponseKey = ProtoUtils.keyForProto(ErrorResponse.getDefaultInstance());
             ErrorResponse errorResponse = ErrorResponse.newBuilder()
-                    // got back from DB existing id
                     .setUserId(request.getUser().getUserId())
-                    // got back next available id
                     .setExpectedUserId(userRegService.getNextId())
-                    //got back from DB existing username
                     .setUsername(request.getUser().getUsername())
                     .build();
             metadata.put(errorResponseKey, errorResponse);

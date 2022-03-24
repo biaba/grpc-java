@@ -48,9 +48,6 @@ class UserServiceImplTest {
         StreamRecorder<UserResponse> responseObserver = StreamRecorder.create();
         service.register(userRequest, responseObserver);
         verify(regService, times(1)).registerUser(any(User.class));
-        if (!responseObserver.awaitCompletion(5, TimeUnit.SECONDS)) {
-            fail("The call did not terminate in time");
-        }
         assertNull(responseObserver.getError());
         List<UserResponse> results = responseObserver.getValues();
         assertEquals(1, results.size());
@@ -69,6 +66,8 @@ class UserServiceImplTest {
         StreamRecorder<UserResponse> responseObserver = StreamRecorder.create();
 
         service.register(userRequest, responseObserver);
+        // in unit test asserts to zero. In integration test -> response.getRegistered()->true Why?
+        assertEquals(0,responseObserver.getValues().size());
         assertEquals(responseObserver.getError().getMessage(), "ALREADY_EXISTS: The id or username exists");
 
         verify(regService, times(0)).registerUser(any(User.class));
