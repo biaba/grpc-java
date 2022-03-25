@@ -14,20 +14,4 @@ public class UserRegServiceIml implements UserRegService {
     public boolean registerUser(User user) throws SQLException {
         return repo.createUser(user);
     }
-
-    @Override
-    public boolean userExistsInDb(User user) throws SQLException {
-        boolean exists = false;
-        if(repo.userExists(user.getUserId(), user.getUsername())){
-            exists = true;
-        }
-        return exists;
-    }
-
-    @Override
-    public long getNextId() throws SQLException {
-        System.out.println("Next Id from DB");
-        long nextID = repo.nextAvailableId();
-        return nextID;
-    }
 }

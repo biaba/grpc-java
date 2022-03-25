@@ -17,14 +17,16 @@ public class DbConnection {
     public boolean executeUpdateStatement(String sql) throws SQLException {
         System.out.println("in db connection updates");
         Statement statement = connection.createStatement();
-        int rows = statement.executeUpdate(sql);
-
+        int rows = 0;
+        try{
+            rows = statement.executeUpdate(sql);
+        } catch (SQLException e){
+            System.out.println("SQL exception: "+ e.getLocalizedMessage());
+        }
         return rows>0;
     }
 
-    public ResultSet executeStatement(String sql) throws SQLException {
-        System.out.println("in db connection selects");
-        Statement statement = connection.createStatement();
-        return statement.executeQuery(sql);
+    public void closeConnection() throws SQLException {
+        connection.close();
     }
 }

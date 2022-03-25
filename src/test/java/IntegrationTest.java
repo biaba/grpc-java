@@ -21,15 +21,6 @@ class IntegrationTest {
         UserRequest request = createUserRequest(11l, "oto", "pssw");
         UserResponse response = ClientApp.callToServer(request);
         assertEquals(true, response.getRegistered());
-    }
-
-    @Test
-    void registerNonSuccess() {
-        UserRequest request = createUserRequest(4l, "ivo", "pssw");
-        UserResponse response = ClientApp.callToServer(request);
-        UserResponse response2 = ClientApp.callToServer(request);
-        assertEquals(true, response.getRegistered());
-        assertEquals(false, response2.getRegistered());
         server.shutdown();
     }
 
