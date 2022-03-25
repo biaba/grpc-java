@@ -13,7 +13,7 @@ public class UserRepository {
         sql += String.format("(%s, '%s', '%s')", user.getUserId(),user.getUsername(),user.getPassword());
         boolean created = false;
         try{
-            connection.executeUpdateStatement(sql);
+            created = connection.executeUpdateStatement(sql);
         } catch (SQLException ex) {
             throw ex;
         } finally {
