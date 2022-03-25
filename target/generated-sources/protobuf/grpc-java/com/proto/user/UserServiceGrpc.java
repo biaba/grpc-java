@@ -1,7 +1,5 @@
 package com.proto.user;
 
-import java.sql.SQLException;
-
 import static io.grpc.MethodDescriptor.generateFullMethodName;
 
 /**
@@ -99,7 +97,7 @@ public final class UserServiceGrpc {
     /**
      */
     public void register(com.proto.user.UserRequest request,
-        io.grpc.stub.StreamObserver<com.proto.user.UserResponse> responseObserver) throws SQLException {
+        io.grpc.stub.StreamObserver<com.proto.user.UserResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRegisterMethod(), responseObserver);
     }
 
@@ -204,12 +202,8 @@ public final class UserServiceGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_REGISTER:
-          try {
-            serviceImpl.register((UserRequest) request,
-                (io.grpc.stub.StreamObserver<UserResponse>) responseObserver);
-          } catch (SQLException e) {
-            e.printStackTrace();
-          }
+          serviceImpl.register((com.proto.user.UserRequest) request,
+              (io.grpc.stub.StreamObserver<com.proto.user.UserResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
