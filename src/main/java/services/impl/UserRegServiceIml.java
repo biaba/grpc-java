@@ -12,21 +12,12 @@ public class UserRegServiceIml implements UserRegService {
 
     @Override
     public boolean registerUser(User user) throws SQLException {
-        System.out.println("Service called to register");
-        boolean registered = true;
-        if(userExistsInDb(user)){
-            registered = false;
-        }else {
-            repo.createUser(user);
-        }
-        return registered;
+        return repo.createUser(user);
     }
 
     @Override
     public boolean userExistsInDb(User user) throws SQLException {
-        System.out.println("User checked in Service");
         boolean exists = false;
-
         if(repo.userExists(user.getUserId(), user.getUsername())){
             exists = true;
         }

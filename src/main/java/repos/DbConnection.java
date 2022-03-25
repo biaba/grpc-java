@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class DbConnection {
 
-    private Connection connection;
+    public Connection connection;
     private String jdbcURL = "jdbc:h2:mem:test";
 
     public DbConnection() throws SQLException {
@@ -26,9 +26,5 @@ public class DbConnection {
         System.out.println("in db connection selects");
         Statement statement = connection.createStatement();
         return statement.executeQuery(sql);
-    }
-
-    public void closeConnection(Connection connection) throws SQLException {
-        connection.close();
     }
 }

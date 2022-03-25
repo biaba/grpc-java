@@ -17,7 +17,7 @@ public class ClientApp {
         if(args.length !=3) {
             String[] ar = new String[3];
             args =ar;
-            args[0] = "1";
+            args[0] = "3";
             args[1]=  "ivo";
             args[2] = "pssw";
         }
@@ -39,7 +39,7 @@ public class ClientApp {
         } catch (StatusRuntimeException e) {
             Metadata metadata = Status.trailersFromThrowable(e);
             ErrorResponse errorResponse = metadata.get(ProtoUtils.keyForProto(ErrorResponse.getDefaultInstance()));
-            System.out.println("Next available ID: "+ errorResponse.getExpectedUserId());
+            System.out.println("You should provide following ID: "+ errorResponse.getExpectedUserId()+ " or change username");
             System.out.println("Exception: " + e.getLocalizedMessage());
             // if not .setRegistered(false), the (true) is returned. Why?
             return UserResponse.newBuilder().setRegistered(false).build();

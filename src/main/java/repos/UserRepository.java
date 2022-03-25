@@ -12,7 +12,6 @@ public class UserRepository {
 
         String sql="Insert into user (ID, username, password) values ";
         sql += String.format("(%s, '%s', '%s')", user.getUserId(),user.getUsername(),user.getPassword());
-        System.out.println("in repo will create a user");
         return connection.executeUpdateStatement(sql);
     }
 

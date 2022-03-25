@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IntegrationTest {
 
-    private static final String host = "localhost";
     private static final int port = 9090;
     private static Server server = ServerBuilder
             .forPort(port)
@@ -28,7 +27,9 @@ class IntegrationTest {
     void registerNonSuccess() {
         UserRequest request = createUserRequest(4l, "ivo", "pssw");
         UserResponse response = ClientApp.callToServer(request);
-        assertEquals(false, response.getRegistered());
+        UserResponse response2 = ClientApp.callToServer(request);
+        assertEquals(true, response.getRegistered());
+        assertEquals(false, response2.getRegistered());
         server.shutdown();
     }
 
