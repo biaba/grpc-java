@@ -17,7 +17,7 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
     public void register(UserRequest request, StreamObserver<UserResponse> responseObserver) throws SQLException {
         System.out.println("New User for registration: " + request.toString());
         boolean registered = userRegService.registerUser(request.getUser());
-        UserResponse response = UserResponse.newBuilder().setRegistered(registered?true:false).build();
+        UserResponse response = UserResponse.newBuilder().setRegistered(true).build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }

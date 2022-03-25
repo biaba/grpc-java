@@ -36,7 +36,6 @@ class UserServiceImplTest {
 
     @Test
     void registerSuccess() throws Exception {
-        System.out.println("1 test");
         userRequest = createUserRequest(5, "marko", "pssw");
         userResponse = createUserResponse(true);
         when(regService.registerUser(any(User.class))).thenReturn(true);

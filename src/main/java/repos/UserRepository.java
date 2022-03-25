@@ -11,8 +11,14 @@ public class UserRepository {
 
         String sql="Insert into user (ID, username, password) values ";
         sql += String.format("(%s, '%s', '%s')", user.getUserId(),user.getUsername(),user.getPassword());
-        boolean created = connection.executeUpdateStatement(sql);
-        connection.closeConnection();
+        boolean created = false;
+        try{
+            connection.executeUpdateStatement(sql);
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            connection.closeConnection();
+        }
         return created;
     }
 }
