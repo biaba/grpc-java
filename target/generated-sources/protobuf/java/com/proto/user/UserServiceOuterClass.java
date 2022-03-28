@@ -35,9 +35,14 @@ public final class UserServiceOuterClass {
     java.lang.String[] descriptorData = {
       "\n\022user_service.proto\032\nuser.proto\"\"\n\013User" +
       "Request\022\023\n\004user\030\001 \001(\0132\005.User\"\"\n\014UserResp" +
-      "onse\022\022\n\nregistered\030\001 \001(\01028\n\013UserService\022" +
-      ")\n\010register\022\014.UserRequest\032\r.UserResponse" +
-      "\"\000B\022\n\016com.proto.userP\001b\006proto3"
+      "onse\022\022\n\nregistered\030\001 \001(\0102\367\001\n\013UserService" +
+      "\022)\n\010register\022\014.UserRequest\032\r.UserRespons" +
+      "e\"\000\022>\n\033serverStrGetRegisteredUsers\022\014.Use" +
+      "rRequest\032\r.UserResponse\"\0000\001\0229\n\026clientStr" +
+      "RegisterUsers\022\014.UserRequest\032\r.UserRespon" +
+      "se\"\000(\001\022B\n\035biStrRegisterAndGetRegistered\022" +
+      "\014.UserRequest\032\r.UserResponse\"\000(\0010\001B\022\n\016co" +
+      "m.proto.userP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

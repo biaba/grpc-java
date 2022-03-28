@@ -5,6 +5,9 @@ import grpc.UserServiceImpl;
 import io.grpc.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class IntegrationTest {
@@ -14,14 +17,32 @@ class IntegrationTest {
             .forPort(port)
             .addService(new UserServiceImpl()).build();
 
-
     @Test
-    void registerSuccess() throws Exception {
-        server.start();
+    void registerUniDirection() throws Exception {
         UserRequest request = createUserRequest(11l, "oto", "pssw");
         UserResponse response = ClientApp.callToServer(request);
         assertEquals(true, response.getRegistered());
-        server.shutdown();
+    }
+
+    @Test
+    void registerServerStreaming() throws Exception {
+        UserRequest request = createUserRequest(11l, "oto", "pssw");
+        UserResponse response = ClientApp.callToServer(request);
+        assertEquals(true, response.getRegistered());
+    }
+
+    @Test
+    void registerClientStreaming() throws Exception {
+        UserRequest request = createUserRequest(11l, "oto", "pssw");
+        UserResponse response = ClientApp.callToServer(request);
+        assertEquals(true, response.getRegistered());
+    }
+
+    @Test
+    void registerBiDirectional() throws Exception {
+        UserRequest request = createUserRequest(11l, "oto", "pssw");
+        UserResponse response = ClientApp.callToServer(request);
+        assertEquals(true, response.getRegistered());
     }
 
     private UserRequest createUserRequest(long userId, String username, String password) {
@@ -35,5 +56,13 @@ class IntegrationTest {
                 .setUser(user)
                 .build();
         return request;
+    }
+
+    private static List<UserRequest> createUserRequestList() {
+        List<UserRequest> users = new ArrayList<>();
+        users.add(UserRequest.newBuilder().setUser(User.newBuilder().setUserId(1l).setUsername("anna").setPassword("pssw").build()).build());
+        users.add(UserRequest.newBuilder().setUser(User.newBuilder().setUserId(2l).setUsername("grieta").setPassword("pssw2").build()).build());
+        users.add(UserRequest.newBuilder().setUser(User.newBuilder().setUserId(3l).setUsername("oto").setPassword("pssw3").build()).build());
+        return users;
     }
 }

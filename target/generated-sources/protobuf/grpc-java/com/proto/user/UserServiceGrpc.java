@@ -46,6 +46,99 @@ public final class UserServiceGrpc {
     return getRegisterMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.proto.user.UserRequest,
+      com.proto.user.UserResponse> getServerStrGetRegisteredUsersMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "serverStrGetRegisteredUsers",
+      requestType = com.proto.user.UserRequest.class,
+      responseType = com.proto.user.UserResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+  public static io.grpc.MethodDescriptor<com.proto.user.UserRequest,
+      com.proto.user.UserResponse> getServerStrGetRegisteredUsersMethod() {
+    io.grpc.MethodDescriptor<com.proto.user.UserRequest, com.proto.user.UserResponse> getServerStrGetRegisteredUsersMethod;
+    if ((getServerStrGetRegisteredUsersMethod = UserServiceGrpc.getServerStrGetRegisteredUsersMethod) == null) {
+      synchronized (UserServiceGrpc.class) {
+        if ((getServerStrGetRegisteredUsersMethod = UserServiceGrpc.getServerStrGetRegisteredUsersMethod) == null) {
+          UserServiceGrpc.getServerStrGetRegisteredUsersMethod = getServerStrGetRegisteredUsersMethod =
+              io.grpc.MethodDescriptor.<com.proto.user.UserRequest, com.proto.user.UserResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "serverStrGetRegisteredUsers"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.proto.user.UserRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.proto.user.UserResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new UserServiceMethodDescriptorSupplier("serverStrGetRegisteredUsers"))
+              .build();
+        }
+      }
+    }
+    return getServerStrGetRegisteredUsersMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<com.proto.user.UserRequest,
+      com.proto.user.UserResponse> getClientStrRegisterUsersMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "clientStrRegisterUsers",
+      requestType = com.proto.user.UserRequest.class,
+      responseType = com.proto.user.UserResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+  public static io.grpc.MethodDescriptor<com.proto.user.UserRequest,
+      com.proto.user.UserResponse> getClientStrRegisterUsersMethod() {
+    io.grpc.MethodDescriptor<com.proto.user.UserRequest, com.proto.user.UserResponse> getClientStrRegisterUsersMethod;
+    if ((getClientStrRegisterUsersMethod = UserServiceGrpc.getClientStrRegisterUsersMethod) == null) {
+      synchronized (UserServiceGrpc.class) {
+        if ((getClientStrRegisterUsersMethod = UserServiceGrpc.getClientStrRegisterUsersMethod) == null) {
+          UserServiceGrpc.getClientStrRegisterUsersMethod = getClientStrRegisterUsersMethod =
+              io.grpc.MethodDescriptor.<com.proto.user.UserRequest, com.proto.user.UserResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "clientStrRegisterUsers"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.proto.user.UserRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.proto.user.UserResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new UserServiceMethodDescriptorSupplier("clientStrRegisterUsers"))
+              .build();
+        }
+      }
+    }
+    return getClientStrRegisterUsersMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<com.proto.user.UserRequest,
+      com.proto.user.UserResponse> getBiStrRegisterAndGetRegisteredMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "biStrRegisterAndGetRegistered",
+      requestType = com.proto.user.UserRequest.class,
+      responseType = com.proto.user.UserResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
+  public static io.grpc.MethodDescriptor<com.proto.user.UserRequest,
+      com.proto.user.UserResponse> getBiStrRegisterAndGetRegisteredMethod() {
+    io.grpc.MethodDescriptor<com.proto.user.UserRequest, com.proto.user.UserResponse> getBiStrRegisterAndGetRegisteredMethod;
+    if ((getBiStrRegisterAndGetRegisteredMethod = UserServiceGrpc.getBiStrRegisterAndGetRegisteredMethod) == null) {
+      synchronized (UserServiceGrpc.class) {
+        if ((getBiStrRegisterAndGetRegisteredMethod = UserServiceGrpc.getBiStrRegisterAndGetRegisteredMethod) == null) {
+          UserServiceGrpc.getBiStrRegisterAndGetRegisteredMethod = getBiStrRegisterAndGetRegisteredMethod =
+              io.grpc.MethodDescriptor.<com.proto.user.UserRequest, com.proto.user.UserResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "biStrRegisterAndGetRegistered"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.proto.user.UserRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.proto.user.UserResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new UserServiceMethodDescriptorSupplier("biStrRegisterAndGetRegistered"))
+              .build();
+        }
+      }
+    }
+    return getBiStrRegisterAndGetRegisteredMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -101,6 +194,27 @@ public final class UserServiceGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRegisterMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void serverStrGetRegisteredUsers(com.proto.user.UserRequest request,
+        io.grpc.stub.StreamObserver<com.proto.user.UserResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getServerStrGetRegisteredUsersMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public io.grpc.stub.StreamObserver<com.proto.user.UserRequest> clientStrRegisterUsers(
+        io.grpc.stub.StreamObserver<com.proto.user.UserResponse> responseObserver) {
+      return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getClientStrRegisterUsersMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public io.grpc.stub.StreamObserver<com.proto.user.UserRequest> biStrRegisterAndGetRegistered(
+        io.grpc.stub.StreamObserver<com.proto.user.UserResponse> responseObserver) {
+      return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getBiStrRegisterAndGetRegisteredMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -110,6 +224,27 @@ public final class UserServiceGrpc {
                 com.proto.user.UserRequest,
                 com.proto.user.UserResponse>(
                   this, METHODID_REGISTER)))
+          .addMethod(
+            getServerStrGetRegisteredUsersMethod(),
+            io.grpc.stub.ServerCalls.asyncServerStreamingCall(
+              new MethodHandlers<
+                com.proto.user.UserRequest,
+                com.proto.user.UserResponse>(
+                  this, METHODID_SERVER_STR_GET_REGISTERED_USERS)))
+          .addMethod(
+            getClientStrRegisterUsersMethod(),
+            io.grpc.stub.ServerCalls.asyncClientStreamingCall(
+              new MethodHandlers<
+                com.proto.user.UserRequest,
+                com.proto.user.UserResponse>(
+                  this, METHODID_CLIENT_STR_REGISTER_USERS)))
+          .addMethod(
+            getBiStrRegisterAndGetRegisteredMethod(),
+            io.grpc.stub.ServerCalls.asyncBidiStreamingCall(
+              new MethodHandlers<
+                com.proto.user.UserRequest,
+                com.proto.user.UserResponse>(
+                  this, METHODID_BI_STR_REGISTER_AND_GET_REGISTERED)))
           .build();
     }
   }
@@ -135,13 +270,37 @@ public final class UserServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRegisterMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void serverStrGetRegisteredUsers(com.proto.user.UserRequest request,
+        io.grpc.stub.StreamObserver<com.proto.user.UserResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncServerStreamingCall(
+          getChannel().newCall(getServerStrGetRegisteredUsersMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public io.grpc.stub.StreamObserver<com.proto.user.UserRequest> clientStrRegisterUsers(
+        io.grpc.stub.StreamObserver<com.proto.user.UserResponse> responseObserver) {
+      return io.grpc.stub.ClientCalls.asyncClientStreamingCall(
+          getChannel().newCall(getClientStrRegisterUsersMethod(), getCallOptions()), responseObserver);
+    }
+
+    /**
+     */
+    public io.grpc.stub.StreamObserver<com.proto.user.UserRequest> biStrRegisterAndGetRegistered(
+        io.grpc.stub.StreamObserver<com.proto.user.UserResponse> responseObserver) {
+      return io.grpc.stub.ClientCalls.asyncBidiStreamingCall(
+          getChannel().newCall(getBiStrRegisterAndGetRegisteredMethod(), getCallOptions()), responseObserver);
+    }
   }
 
   /**
    */
   public static final class UserServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<UserServiceBlockingStub> {
-    private UserServiceBlockingStub(
-        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+    public UserServiceBlockingStub(
+            io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
@@ -156,6 +315,14 @@ public final class UserServiceGrpc {
     public com.proto.user.UserResponse register(com.proto.user.UserRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRegisterMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public java.util.Iterator<com.proto.user.UserResponse> serverStrGetRegisteredUsers(
+        com.proto.user.UserRequest request) {
+      return io.grpc.stub.ClientCalls.blockingServerStreamingCall(
+          getChannel(), getServerStrGetRegisteredUsersMethod(), getCallOptions(), request);
     }
   }
 
@@ -183,6 +350,9 @@ public final class UserServiceGrpc {
   }
 
   private static final int METHODID_REGISTER = 0;
+  private static final int METHODID_SERVER_STR_GET_REGISTERED_USERS = 1;
+  private static final int METHODID_CLIENT_STR_REGISTER_USERS = 2;
+  private static final int METHODID_BI_STR_REGISTER_AND_GET_REGISTERED = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -205,6 +375,10 @@ public final class UserServiceGrpc {
           serviceImpl.register((com.proto.user.UserRequest) request,
               (io.grpc.stub.StreamObserver<com.proto.user.UserResponse>) responseObserver);
           break;
+        case METHODID_SERVER_STR_GET_REGISTERED_USERS:
+          serviceImpl.serverStrGetRegisteredUsers((com.proto.user.UserRequest) request,
+              (io.grpc.stub.StreamObserver<com.proto.user.UserResponse>) responseObserver);
+          break;
         default:
           throw new AssertionError();
       }
@@ -215,6 +389,12 @@ public final class UserServiceGrpc {
     public io.grpc.stub.StreamObserver<Req> invoke(
         io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
+        case METHODID_CLIENT_STR_REGISTER_USERS:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.clientStrRegisterUsers(
+              (io.grpc.stub.StreamObserver<com.proto.user.UserResponse>) responseObserver);
+        case METHODID_BI_STR_REGISTER_AND_GET_REGISTERED:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.biStrRegisterAndGetRegistered(
+              (io.grpc.stub.StreamObserver<com.proto.user.UserResponse>) responseObserver);
         default:
           throw new AssertionError();
       }
@@ -267,6 +447,9 @@ public final class UserServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new UserServiceFileDescriptorSupplier())
               .addMethod(getRegisterMethod())
+              .addMethod(getServerStrGetRegisteredUsersMethod())
+              .addMethod(getClientStrRegisterUsersMethod())
+              .addMethod(getBiStrRegisterAndGetRegisteredMethod())
               .build();
         }
       }

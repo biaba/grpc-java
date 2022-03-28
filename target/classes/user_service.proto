@@ -8,6 +8,12 @@ option java_package = "com.proto.user";
 
 service UserService {
   rpc register(UserRequest) returns (UserResponse) {};
+
+  rpc serverStrGetRegisteredUsers(UserRequest) returns (stream UserResponse) {}
+
+  rpc clientStrRegisterUsers(stream UserRequest) returns (UserResponse) {}
+
+  rpc biStrRegisterAndGetRegistered(stream UserRequest) returns (stream UserResponse) {}
 }
 
 message UserRequest {
