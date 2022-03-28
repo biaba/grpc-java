@@ -100,7 +100,7 @@ public class ClientApp {
 
     public static void bidirectionalStr(List<UserRequest> userRequestList) throws InterruptedException{
         System.out.println("Bidirectional streaming");final CountDownLatch finishLatch = new CountDownLatch(1);
-        StreamObserver<UserResponse> responseObserver = new StreamObserver<UserResponse>() {
+        StreamObserver<UserResponse> responseObserver = new StreamObserver<>() {
             @Override
             public void onNext(UserResponse response) {
                 System.out.println("Client getting response: "+ response.getRegistered());
