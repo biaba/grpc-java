@@ -36,18 +36,22 @@ class IntegrationTest {
     void registerServerStreaming() throws Exception {
         UserRequest request = createUserRequest(11l, "oto", "pssw");
         ClientApp.serverSideStr(request);
+        assertEquals(false, ClientApp.serverSideStr(request).contains(false));
     }
 
     @Test
     void registerClientStreaming() throws Exception {
         List<UserRequest> requestList = createUserRequestList();
         ClientApp.clientSideStr(requestList);
+        assertEquals(true, ClientApp.clientSideStr(requestList));
     }
 
     @Test
     void registerBiDirectional() throws Exception {
         List<UserRequest> requestList = createUserRequestList();
         ClientApp.bidirectionalStr(requestList);
+        assertEquals(requestList.size(), ClientApp.bidirectionalStr(requestList).size());
+        assertEquals(false, ClientApp.bidirectionalStr(requestList).contains(false));
     }
 
     @AfterAll

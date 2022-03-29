@@ -43,25 +43,31 @@ public class ClientApp {
         return response;
     }
 
-    public static void serverSideStr(UserRequest request) {
+    public static List<Boolean> serverSideStr(UserRequest request) {
         Iterator<UserResponse> responses;
+        List<Boolean> successList = new ArrayList<>();
         try {
             System.out.println("User created and will be sent over: " + request);
             responses = blockingStub.serverStrGetRegisteredUsers(request);
             for (int i = 1; responses.hasNext(); i++) {
                 UserResponse r = responses.next();
                 System.out.println("Server streaming - Response "+ r.getRegistered());
+                successList.add(r.getRegistered());
             }
         } catch (StatusRuntimeException e) {
             System.out.println("Error: "+ e.getLocalizedMessage());
         }
+
+        return successList;
     }
 
-    public static void clientSideStr(List<UserRequest> userRequestList) throws InterruptedException {
+    public static boolean clientSideStr(List<UserRequest> userRequestList) throws InterruptedException {
         final CountDownLatch finishLatch = new CountDownLatch(1);
+        final boolean[] allDone = new boolean[1];
         StreamObserver<UserResponse> responseObserver = new StreamObserver<>() {
             @Override
             public void onNext(UserResponse allRegistered) {
+                allDone[0] = allRegistered.getRegistered();
                 System.out.println("Client side streaming - all users registered? "+ allRegistered.getRegistered());
                 }
 
@@ -85,7 +91,7 @@ public class ClientApp {
                 System.out.println("User to be sent over: "+ r.getUser());
                 requestObserver.onNext(r);
                 if (finishLatch.getCount() == 0) {
-                    return;
+                    return allDone[0];
                 }
             }
         } catch (RuntimeException e) {
@@ -96,13 +102,19 @@ public class ClientApp {
         if (!finishLatch.await(1, TimeUnit.MINUTES)) {
             System.out.println("Process didn't finish within 1 minute");
         }
+
+        return allDone[0];
     }
 
-    public static void bidirectionalStr(List<UserRequest> userRequestList) throws InterruptedException{
-        System.out.println("Bidirectional streaming");final CountDownLatch finishLatch = new CountDownLatch(1);
+    public static List<Boolean> bidirectionalStr(List<UserRequest> userRequestList) throws InterruptedException{
+        System.out.println("Bidirectional streaming");
+        final CountDownLatch finishLatch = new CountDownLatch(1);
+        List<Boolean> successList = new ArrayList<>();
+
         StreamObserver<UserResponse> responseObserver = new StreamObserver<>() {
             @Override
             public void onNext(UserResponse response) {
+                successList.add(response.getRegistered());
                 System.out.println("Client getting response: "+ response.getRegistered());
             }
 
@@ -126,7 +138,7 @@ public class ClientApp {
                 requestObserver.onNext(r);
                 Thread.sleep(200);
                 if (finishLatch.getCount() == 0) {
-                    return;
+                    return successList;
                 }
             }
         } catch (RuntimeException e) {
@@ -138,6 +150,7 @@ public class ClientApp {
         if (!finishLatch.await(1, TimeUnit.MINUTES)) {
             System.out.println("The task can not be completed within 1 minute");
         }
+        return successList;
     }
 
     private static List<UserRequest> createUserRequestList() {
