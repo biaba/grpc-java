@@ -24,6 +24,7 @@ public class ServerApp {
         } else {
             mtlsServerStart();
         }
+        server.awaitTermination();
     }
 
     public static void simpleServerStart() throws IOException, InterruptedException {
@@ -33,7 +34,6 @@ public class ServerApp {
 
         server.start();
         System.out.println(" Server started");
-        server.awaitTermination();
     }
 
     public static void mtlsServerStart() throws IOException, InterruptedException {
@@ -44,8 +44,6 @@ public class ServerApp {
         server.start();
 
         System.out.println("mTLS Server started");
-        server.awaitTermination();
-
     }
 
     public static void closeServer() {
