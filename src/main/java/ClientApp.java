@@ -1,9 +1,14 @@
 import com.proto.user.*;
 import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
+import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
+import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
+import io.grpc.netty.shaded.io.netty.handler.ssl.SslContext;
 import io.grpc.okhttp.OkHttpChannelBuilder;
 import io.grpc.stub.StreamObserver;
 
+import javax.net.ssl.SSLException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,24 +21,55 @@ public class ClientApp {
     private static ManagedChannel channel;
     private static UserServiceGrpc.UserServiceBlockingStub blockingStub;
     private static UserServiceGrpc.UserServiceStub nonBlockingStub;
-    private static List<UserRequest> userRequestList;
-    private static UserRequest userRequest;
+    private static ManagedChannel mtlsChannel;
+    private static UserServiceGrpc.UserServiceBlockingStub mtlsBlockingStub;
+    private static UserServiceGrpc.UserServiceStub mtlsNonBlockingStub;
+    private static List<UserRequest> userRequestList = createUserRequestList();
+    private static UserRequest userRequest = createUserRequest();
+    // ssl or simple connection
+    private static boolean sslConnection = true;
 
-    static {
+
+    public ClientApp() {
+        System.out.println("simple context created");
         channel = OkHttpChannelBuilder.forAddress(host, port)
                 .usePlaintext()
                 .build();
         blockingStub = UserServiceGrpc.newBlockingStub(channel);
         nonBlockingStub = UserServiceGrpc.newStub(channel);
-        userRequestList = createUserRequestList();
-        userRequest = createUserRequest();
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        callToServer(userRequest);
-        serverSideStr(userRequest);
-        clientSideStr(userRequestList);
-        bidirectionalStr(userRequestList);
+    public ClientApp(SslContext sslContext) {
+        System.out.println("ssl context created");
+        mtlsChannel = NettyChannelBuilder.forAddress(host, port)
+                .sslContext(sslContext)
+                .build();
+
+        mtlsBlockingStub = UserServiceGrpc.newBlockingStub(mtlsChannel);
+        mtlsNonBlockingStub = UserServiceGrpc.newStub(mtlsChannel);
+    }
+
+    public static void main(String[] args) throws InterruptedException, SSLException {
+        if(args.length==1) sslConnection = args[0].equals("true")? true : false;
+
+        if(!sslConnection) {
+            new ClientApp();
+            callToServer(userRequest);
+            serverSideStr(userRequest);
+            clientSideStr(userRequestList);
+            bidirectionalStr(userRequestList);
+        } else {
+            SslContext sslContext = ClientApp.loadTLSCredentials();
+            new ClientApp(sslContext);
+            mtlsCallToServer(userRequest);
+        }
+    }
+
+    public static UserResponse mtlsCallToServer(UserRequest request) {
+        System.out.println("Unidirectional with mTLS- User created and will be sent over: " + request);
+        UserResponse response = mtlsBlockingStub.register(request);
+        System.out.println("Unidirectional with mTLS- User registered: " + response.getRegistered());
+        return response;
     }
 
     public static UserResponse callToServer(UserRequest request) {
@@ -51,11 +87,11 @@ public class ClientApp {
             responses = blockingStub.serverStrGetRegisteredUsers(request);
             for (int i = 1; responses.hasNext(); i++) {
                 UserResponse r = responses.next();
-                System.out.println("Server streaming - Response "+ r.getRegistered());
+                System.out.println("Server streaming - Response " + r.getRegistered());
                 successList.add(r.getRegistered());
             }
         } catch (StatusRuntimeException e) {
-            System.out.println("Error: "+ e.getLocalizedMessage());
+            System.out.println("Error: " + e.getLocalizedMessage());
         }
 
         return successList;
@@ -68,8 +104,8 @@ public class ClientApp {
             @Override
             public void onNext(UserResponse allRegistered) {
                 allDone[0] = allRegistered.getRegistered();
-                System.out.println("Client side streaming - all users registered? "+ allRegistered.getRegistered());
-                }
+                System.out.println("Client side streaming - all users registered? " + allRegistered.getRegistered());
+            }
 
             @Override
             public void onCompleted() {
@@ -79,7 +115,7 @@ public class ClientApp {
 
             @Override
             public void onError(Throwable t) {
-                System.out.println("Error "+ t.getLocalizedMessage());
+                System.out.println("Error " + t.getLocalizedMessage());
                 finishLatch.countDown();
             }
         };
@@ -88,7 +124,7 @@ public class ClientApp {
         try {
 
             for (UserRequest r : userRequestList) {
-                System.out.println("User to be sent over: "+ r.getUser());
+                System.out.println("User to be sent over: " + r.getUser());
                 requestObserver.onNext(r);
                 if (finishLatch.getCount() == 0) {
                     return allDone[0];
@@ -106,7 +142,7 @@ public class ClientApp {
         return allDone[0];
     }
 
-    public static List<Boolean> bidirectionalStr(List<UserRequest> userRequestList) throws InterruptedException{
+    public static List<Boolean> bidirectionalStr(List<UserRequest> userRequestList) throws InterruptedException {
         System.out.println("Bidirectional streaming");
         final CountDownLatch finishLatch = new CountDownLatch(1);
         List<Boolean> successList = new ArrayList<>();
@@ -115,7 +151,7 @@ public class ClientApp {
             @Override
             public void onNext(UserResponse response) {
                 successList.add(response.getRegistered());
-                System.out.println("Client getting response: "+ response.getRegistered());
+                System.out.println("Client getting response: " + response.getRegistered());
             }
 
             @Override
@@ -127,14 +163,14 @@ public class ClientApp {
             @Override
             public void onError(Throwable t) {
                 finishLatch.countDown();
-                System.out.println("Error "+ t.getLocalizedMessage());
+                System.out.println("Error " + t.getLocalizedMessage());
             }
         };
 
         StreamObserver<UserRequest> requestObserver = nonBlockingStub.biStrRegisterAndGetRegistered(responseObserver);
         try {
             for (UserRequest r : userRequestList) {
-                System.out.println("User created and will be sent over: "+r.getUser());
+                System.out.println("User created and will be sent over: " + r.getUser());
                 requestObserver.onNext(r);
                 Thread.sleep(200);
                 if (finishLatch.getCount() == 0) {
@@ -165,5 +201,17 @@ public class ClientApp {
         User user = User.newBuilder().setUserId(1l).setUsername("maija").setPassword("drm").build();
         UserRequest userRequest = UserRequest.newBuilder().setUser(user).build();
         return userRequest;
+    }
+
+    public static SslContext loadTLSCredentials() throws SSLException {
+        System.out.println("ssl loaded");
+        File serverCACertFile = new File("cert/ca-cert.pem");
+        File clientCertFile = new File("cert/client-cert.pem");
+        File clientKeyFile = new File("cert/client-key.pem");
+
+        return GrpcSslContexts.forClient()
+                .keyManager(clientCertFile, clientKeyFile)
+                .trustManager(serverCACertFile)
+                .build();
     }
 }

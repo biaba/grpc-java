@@ -15,14 +15,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IntegrationTest {
 
-    private static final int port = 9090;
-    private static Server server = ServerBuilder
-            .forPort(port)
-            .addService(new UserServiceImpl()).build();
-
     @BeforeAll
-    public static void startingServer() throws IOException {
-        server.start();
+    public static void startingServer() throws IOException, InterruptedException {
+        ServerApp.simpleServerStart();
+        new ClientApp();
     }
 
     @Test
@@ -56,7 +52,7 @@ class IntegrationTest {
 
     @AfterAll
     public static void closingServer() {
-        server.shutdown();
+        ServerApp.closeServer();
     }
 
     private UserRequest createUserRequest(long userId, String username, String password) {

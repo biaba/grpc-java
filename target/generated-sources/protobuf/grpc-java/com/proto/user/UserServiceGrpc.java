@@ -299,8 +299,8 @@ public final class UserServiceGrpc {
   /**
    */
   public static final class UserServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<UserServiceBlockingStub> {
-    public UserServiceBlockingStub(
-            io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+    private UserServiceBlockingStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
